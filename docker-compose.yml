@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    depends_on:
+      - app
+    volumes:
+      - ./:/var/www
+      - ./dev/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./tmp/logs:/var/log/nginx
+  app:
+    build:
+      context: .
+      dockerfile: ./dev/Dockerfile
+    volumes:
+      - ./:/var/www
+    env_file:
+      - ./.env
